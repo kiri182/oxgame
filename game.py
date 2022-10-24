@@ -1,6 +1,10 @@
 import random
+import sys
+import time
+from time import sleep
 
 gameBoard = [0,1,2,3,4,5,6,7,8] # ゲームに利用する盤面
+retry = 3
 
 # 盤面を3x3で表示する
 def displayBoard():
@@ -22,7 +26,20 @@ def displayBoard():
 def inputBoard(playerType):
     # 1.座標を入力させる
     if(playerType == "o"):  # o が渡されたら座標を入力
-        tgt = int(input("0~8の座標を入れてください: "))
+#        try:
+#            tgt = int(input("0~8の座標を入れてください: "))
+#        except ValueError:
+#        sys.exit()
+                
+        for i in range(1, retry + 1):
+            try:
+                tgt = int(input("0~8の座標を入れてください: "))
+            except ValueError as e:
+                print("error:{e} retry:{i}/{max}".format(e=e, i=i, max=retry))
+                sleep(i * 3)
+            else:
+                return True
+
     else: # xが渡されたらランダムで座標を入力
         tgt = random.randint(0,8)
 
